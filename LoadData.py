@@ -17,13 +17,13 @@ def get_min_value_of_df(data):
 def get_max_norm_of_df(data):
     global df
     maxVals = data.max(axis = 1)
-    maxVals = maxVals.min()
+    maxVals = maxVals.max()
     print("Max:")
     print(maxVals)
     return maxVals
 
 def normalize(dataframe):
-    dataframe = dataframe[(dataframe < 600).all(axis=1)]
+    #dataframe = dataframe[(dataframe < 650).all(axis=1)]
     result = dataframe
     print("Data Frame:")
     print(result)
@@ -38,13 +38,30 @@ def normalize(dataframe):
 
 def covarianza():
     global df
+    largest = []
 
     x = normalize(df)
-    z = x.corr()
+    z = x.corr(method='pearson')
+    z.to_csv(r'./correlated.csv')
     print("Data Frame Normalized:")
     print(x)
     print("Data Frame Correlated:")
     print(z)
-    print(z.nlargest(10,1)[1])
+    #print(z.nlargest(1,154)[1])
+    # for i in range(1,500):
+    #     largest.append(z.nlargest(1, i).index)
+    #
+    # lar = largest.sort()
+    # for i in range(0,20):
+    #     print(lar)
+    #print(z.nsmallest(10,1)[1])
+    print("Largest Values: ")
+    for i in range(1, 500):
+        for j in range(1, 500):
+            if abs(z.at[i,j]) > 0.6 and z.at[i,j] != 1:
+                print(z.at[i,j])
+                largest.append(z.at[i,j])
+
+    print(len(largest))
 
 covarianza()
