@@ -47,21 +47,21 @@ def covarianza():
     print(x)
     print("Data Frame Correlated:")
     print(z)
-    #print(z.nlargest(1,154)[1])
-    # for i in range(1,500):
-    #     largest.append(z.nlargest(1, i).index)
-    #
-    # lar = largest.sort()
-    # for i in range(0,20):
-    #     print(lar)
-    #print(z.nsmallest(10,1)[1])
+
+    tuple_list = []
     print("Largest Values: ")
     for i in range(1, 500):
         for j in range(1, 500):
             if abs(z.at[i,j]) > 0.6 and z.at[i,j] != 1:
-                print(z.at[i,j])
-                largest.append(z.at[i,j])
+                if z.at[i,j] not in largest:
+                    tuple_list.append((i,j, z.at[i,j]))
+                    largest.append(z.at[i,j])
 
+    # we have a list of tuples with the format (Column, row, value)
+    # the column and row can be interchangable
     print(len(largest))
+    print(tuple_list)
+
+
 
 covarianza()
