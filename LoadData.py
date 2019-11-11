@@ -1,7 +1,7 @@
 import pandas as pd
 
 # Read the train data and set it to a pd DataFrame
-col_names = list(range(1,501))
+col_names = list(range(0,500))
 filename = "madelon_train.data"
 df = pd.read_csv(filename, sep=' ', names=col_names, index_col=False, header=None)
 #print(df)
@@ -37,7 +37,7 @@ def normalize(dataframe):
     return result
 
 
-def covarianza():
+def correlacion():
     global df
     largest = []
 
@@ -51,9 +51,9 @@ def covarianza():
 
     tuple_list = []
     print("Largest Values: ")
-    for i in range(1, 500):
-        for j in range(1, 500):
-            if 0.1 < abs(z.at[i, j]) < 0.6 and z.at[i,j] != 1:
+    for i in range(0, 500):
+        for j in range(0, 500):
+            if abs(z.at[i, j]) <= 0.00002 and z.at[i,j] != 1: # change this to evaluate correlation data
                 if z.at[i, j] not in largest:
                     tuple_list.append((i,j, z.at[i,j]))
                     largest.append(z.at[i,j])
@@ -63,12 +63,21 @@ def covarianza():
     print(len(largest))
     print(len(tuple_list))
     print(tuple_list)
-    #res_dictionary = {}
-   # for col, row, val in tuple_list:
-       # if col in res_dictionary.keys():
-       #     res_dictionary[col].append(row)
-       # else:
-        #    res_dictionary[col] = []
+    res_dictionary = {}
+    for col, row, val in tuple_list:
+        if col in res_dictionary.keys():
+            res_dictionary[col].append(row)
+        else:
+            res_dictionary[col] = []
+            res_dictionary[col].append(row)
+
+    print(res_dictionary)
+    print(len(res_dictionary))
+    col_list = []
+    for i in res_dictionary:
+        col_list.append(i)
+    print(col_list)
+    print(len(col_list))
     # remove_cols([319, 443, 452, 473, 379, 337, 456, 476, 129, 339, 282, 434, 242, 494])
 
 
@@ -83,15 +92,17 @@ def remove_cols(int_array):
 def get_final_df():
     global df
 
-    to_keep_list = [17, 20, 23, 24, 32, 36, 40, 46, 47, 48, 51, 59, 63, 73, 77, 87, 92, 93, 95, 101, 106, 107, 108, 121,
-                    122, 123, 124, 126, 131, 139, 142, 143, 146, 147, 148, 152, 154, 155, 156, 159, 162, 164, 178, 180,
-                    183, 184, 188, 189, 191, 193, 197, 201, 204, 208, 215, 217, 220, 229, 230, 231, 240, 245, 247, 248,
-                    250, 251, 253, 258, 262, 270, 281, 284, 286, 287, 296, 299, 300, 302, 303, 305, 306, 307, 310, 311,
-                    318, 326, 327, 328, 335, 336, 338, 341, 342, 345, 354, 360, 361, 363, 366, 372, 373, 375, 394, 400,
-                    403, 405, 410, 411, 417, 418, 423, 431, 438, 439, 445, 448, 450, 462, 465, 467, 469, 471, 477, 478,
-                    479, 485, 487, 489, 494, 499, 29, 49, 65, 106, 154, 454]
+    to_keep_list = [16, 19, 22, 23, 31, 35, 39, 41, 45, 46, 50, 58, 62, 72, 76, 91,
+                    92, 100, 105, 106, 107, 120, 122, 123, 125, 138, 141, 142, 145,
+                    147, 151, 153, 154, 155, 158, 161, 163, 177, 179, 182, 183, 190,
+                    192, 200, 207, 214, 216, 219, 228, 229, 230, 249, 250, 252, 280,
+                    283, 295, 301, 302, 305, 309, 317, 337, 353, 360, 362, 372, 393,
+                    404, 410, 28, 48, 64, 105, 128, 153, 241, 281, 318, 336, 338, 378,
+                    433, 442, 451, 453, 455, 472, 475]
 
-    for i in range(1, 501):
+    print(len(to_keep_list))
+
+    for i in range(0, 500):
         if i not in to_keep_list:
             df = df.drop(i, 1)
 
@@ -100,3 +111,5 @@ def get_final_df():
 
 
 get_final_df()
+#normalize(df)
+#correlacion()
