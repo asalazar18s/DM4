@@ -36,6 +36,8 @@ def normalize(dataframe):
     result.to_csv(r'./results.csv')
     return result
 
+print(normalize(df))
+
 
 def correlacion():
     global df
@@ -114,7 +116,7 @@ def get_final_df():
                     301, 302, 303, 306, 310, 316, 323, 324, 325, 326, 331, 332, 334, 335,
                     336, 343, 344, 347, 350, 355, 356, 357, 365, 367, 370, 372, 378, 385,
                     389, 402, 403, 438, 444, 450, 456, 489]
-]
+
 
     print(len(to_keep_list))
 
@@ -128,4 +130,4 @@ def get_final_df():
 
 #get_final_df()
 #normalize(df)
-correlacion()
+#correlacion()

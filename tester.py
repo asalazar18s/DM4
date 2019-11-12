@@ -42,9 +42,11 @@ def normalize(dataframe):
 
 
 
-best_attributes = [90,  153,        288, 292, 318,  378,  455,
-                    197, 475, 451,  142, 128, 100,
-                   ]
+best_attributes = [28, 90, 153, 288, 292, 318, 378, 455, 197, 475, 142, 100, 451, 472, 128, 7, 151, 468, 482, 3, 0]
+#[28, 90,  153, 288, 292, 318,  378,  455,
+#                     197, 475,   142,  100,
+#                    451, 472, 128, 7,  151, 39, 468
+#                    ]
     #[28, 48, 64, 105, 128, 153, 241, 281, 318, 336, 338, 378,
      #               433, 442, 451, 453, 455, 472, 475]
 
@@ -67,13 +69,14 @@ for col in df.columns:
 filename1 = "madelon_train.names"
 training_target_values = pd.read_csv(filename1, sep=' ', index_col=None, header=None)
 
-neighbors = 5
-m = 'minkowski'
+neighbors = 7
+m = 'manhattan'
 
 # train the knn algorithm
 knn = KNeighborsClassifier(n_neighbors=neighbors,
                            weights='uniform',
                            metric=m,
+
                            )
 
 
