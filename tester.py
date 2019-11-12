@@ -1,4 +1,4 @@
-from sklearn.neighbors import KNeighborsClassifier
+from sklearn.neighbors import KNeighborsClassifier, NearestNeighbors, RadiusNeighborsClassifier
 from sklearn import metrics
 import pandas as pd
 import numpy as py
@@ -42,8 +42,11 @@ def normalize(dataframe):
 
 
 
-best_attributes = [28, 48, 64, 105, 128, 153, 241, 281, 318, 336, 338, 378,
-                    433, 442, 451, 453, 455, 472, 475]
+best_attributes = [90,  153,        288, 292, 318,  378,  455,
+                    197, 475, 451,  142, 128, 100,
+                   ]
+    #[28, 48, 64, 105, 128, 153, 241, 281, 318, 336, 338, 378,
+     #               433, 442, 451, 453, 455, 472, 475]
 
     #[79, 81, 105, 128, 148, 153, 173, 210, 227, 241, 243, 281, 305, 318, 338, 378, 435, 451, 459, 493]
 
@@ -60,15 +63,20 @@ for col in df.columns:
     if col not in best_attributes:
         df = df.drop(col, axis=1)
 
-
 # get the target values for the training dataset
 filename1 = "madelon_train.names"
 training_target_values = pd.read_csv(filename1, sep=' ', index_col=None, header=None)
 
+neighbors = 5
+m = 'minkowski'
 
-neighbors = 9
 # train the knn algorithm
-knn = KNeighborsClassifier(n_neighbors=neighbors, metric='minkowski')
+knn = KNeighborsClassifier(n_neighbors=neighbors,
+                           weights='uniform',
+                           metric=m,
+                           )
+
+
 knn.fit(df, training_target_values)
 
 # Open validation data
@@ -85,6 +93,7 @@ validation_target_values = pd.read_csv(filename2, sep=' ', index_col=None, heade
 
 print(best_attributes)
 print("Neighbors: ", neighbors)
+print("Metric: ", m)
 
 
 print("Accuracy: ", knn.score(X=validation_data, y=validation_target_values))
